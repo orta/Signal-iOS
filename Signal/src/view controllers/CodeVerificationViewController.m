@@ -74,6 +74,7 @@
 - (void)registerWithSuccess:(void (^)())success failure:(void (^)(NSError *))failure
 {
     [_submitCodeSpinner startAnimating];
+
     [[RPServerRequestsManager sharedInstance] performRequest:[RPAPICall verifyVerificationCode:_challengeTextField.text]
         success:^(NSURLSessionDataTask *task, id responseObject) {
 
@@ -86,6 +87,8 @@
                 }
                 failure:^(NSError *error) {
                   failure(error);
+                    [_submitCodeSpinner stopAnimating];
+
                 }];
           } failure:^(NSError *error) {
             failure(error);
